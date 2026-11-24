@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Divya 🎂</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  body {
+    font-family:'Poppins', sans-serif;
+    background: linear-gradient(160deg, #ffe5ec 0%, #ffc2d1 45%, #ffb3c6 100%);
+    min-height:100vh; overflow-x:hidden; color:#6d214f;
+  }
+  /* floating background hearts & balloons */
+  .float-bg { position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+  .float-bg span { position:absolute; bottom:-60px; font-size:26px; opacity:.55; animation: rise linear infinite; }
+  @keyframes rise { to { transform: translateY(-115vh) rotate(24deg); } }
+
+  .wrap { position:relative; z-index:1; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:18px; }
+  .screen { display:none; width:100%; max-width:430px; text-align:center; animation: fadeUp .6s ease both; }
+  .screen.active { display:block; }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(26px); } to { opacity:1; transform:none; } }
+
+  .card {
+    background: rgba(255,255,255,.82); border-radius:26px; padding:34px 24px;
+    box-shadow: 0 18px 45px rgba(214,51,132,.25); backdrop-filter: blur(6px);
+  }
+  .script { font-family:'Dancing Script', cursive; }
+  h1.big { font-family:'Dancing Script', cursive; font-size:52px; line-height:1.1; color:#d6336c; }
+  h2 { font-size:22px; font-weight:600; margin-bottom:10px; }
+  p { font-size:16px; line-height:1.65; }
+  .small { font-size:13px; opacity:.75; }
+
+  .btn {
+    display:inline-block; margin-top:22px; border:none; cursor:pointer;
+    background: linear-gradient(135deg,#ff5d8f,#d6336c); color:#fff;
+    font-family:'Poppins',sans-serif; font-size:17px; font-weight:600;
+    padding:14px 34px; border-radius:50px; box-shadow:0 10px 24px rgba(214,51,132,.4);
+    transition: transform .15s ease;
+  }
+  .btn:active { transform: scale(.95); }
+
+  .gift { font-size:92px; animation: bounce 1.6s ease infinite; display:inline-block; }
+  @keyframes bounce { 0%,100%{ transform:translateY(0) rotate(-3deg);} 50%{ transform:translateY(-14px) rotate(3deg);} }
+
+  input.name {
+    width:100%; padding:14px 18px; font-size:18px; text-align:center;
+    border:2px solid #ffb3c6; border-radius:50px; outline:none; font-family:'Poppins',sans-serif;
+    color:#6d214f; background:#fff;
+  }
+  input.name:focus { border-color:#d6336c; }
+  .shake { animation: shake .45s ease; }
+  @keyframes shake { 0%,100%{transform:none;} 20%{transform:translateX(-9px);} 40%{transform:translateX(9px);} 60%{transform:translateX(-6px);} 80%{transform:translateX(6px);} }
+  .hint { color:#c2255c; font-size:14px; margin-top:12px; min-height:20px; }
+
+  .balloons { font-size:44px; letter-spacing:6px; }
+  .date-badge {
+    display:inline-block; background:#fff; color:#d6336c; font-weight:700;
+    padding:7px 20px; border-radius:50px; margin-top:14px; box-shadow:0 6px 16px rgba(214,51,132,.25);
+  }
+  .wish-emoji { font-size:56px; }
+  .wish-text { font-size:18px; line-height:1.7; margin-top:12px; }
+  .dots { margin-top:18px; font-size:12px; letter-spacing:5px; color:#d6336c; }
+
+  /* cake */
+  .cake-zone { margin-top:8px; }
+  .cake { position:relative; width:220px; margin:26px auto 0; }
+  .candles { display:flex; justify-content:center; gap:34px; position:relative; z-index:3; }
+  .candle { width:12px; height:52px; background: repeating-linear-gradient(45deg,#fff 0 6px,#ff8fab 6px 12px); border-radius:4px; position:relative; }
+  .flame {
+    position:absolute; top:-24px; left:50%; transform:translateX(-50%);
+    width:16px; height:24px; background: radial-gradient(circle at 50% 75%, #fff6bf 0%, #ffd43b 45%, #ff922b 100%);
+    border-radius:50% 50% 50% 50%/62% 62% 38% 38%;
+    animation: flick .28s ease-in-out infinite alternate; transform-origin:50% 100%;
+  }
+  @keyframes flick { from { transform:translateX(-50%) scale(1) rotate(-2deg);} to { transform:translateX(-50%) scale(1.12,1.22) rotate(2deg);} }
+  .candle.out .flame { opacity:0; transform:translateX(-50%) scale(.1); transition:all .3s ease; }
+  .icing { height:26px; background:#fff0f3; border-radius:14px 14px 6px 6px; position:relative; z-index:2; margin-top:6px; box-shadow: inset 0 -6px 0 #ffe5ec; }
+  .layer1 { height:48px; background:linear-gradient(#ff8fab,#ff7096); border-radius:8px; }
+  .layer2 { height:56px; background:linear-gradient(#ff7096,#f06595); border-radius:8px; margin-top:5px; }
+  .plate { height:12px; background:#dee2e6; border-radius:50%; margin-top:8px; box-shadow:0 6px 12px rgba(0,0,0,.12); }
+
+  .letter { text-align:left; font-size:16.5px; line-height:1.85; }
+  .letter .sign { font-family:'Dancing Script', cursive; font-size:30px; color:#d6336c; text-align:right; margin-top:14px; }
+  .music-btn {
+    position:fixed; top:14px; right:14px; z-index:5; width:48px; height:48px; border-radius:50%;
+    border:none; background:rgba(255,255,255,.9); font-size:22px; cursor:pointer;
+    box-shadow:0 6px 16px rgba(214,51,132,.3);
+  }
+  .footer { margin-top:20px; font-size:12.5px; opacity:.7; }
+</style>
+</head>
+<body>
+
+<button class="music-btn" id="musicBtn" title="Music">🎵</button>
+<div class="float-bg" id="floatBg"></div>
+
+<div class="wrap">
+
+  <!-- SCREEN 0 : Gate -->
+  <div class="screen active" id="s0">
+    <div class="card">
+      <div class="gift">🎁</div>
+      <h2 style="margin-top:10px;">Ruko zara...</h2>
+      <p>Tumhare liye ek <b>chhota sa surprise</b> chhupa hai iske andar.<br>Khol ke dekho? 💌</p>
+      <button class="btn" onclick="go(1)">Surprise Khollo ✨</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 1 : Name entry -->
+  <div class="screen" id="s1">
+    <div class="card" id="nameCard">
+      <div style="font-size:52px;">🔐</div>
+      <h2 style="margin-top:8px;">Pehle apna naam likho</h2>
+      <p class="small">Ye surprise sirf ek khaas insaan ke liye hai.<br>Naam likho, darwaza khul jayega...</p>
+      <div style="margin-top:18px;">
+        <input class="name" id="nameInput" type="text" placeholder="Apna naam..." autocomplete="off">
+      </div>
+      <div class="hint" id="nameHint"></div>
+      <button class="btn" onclick="checkName()">Darwaza Khollo 🚪</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 2 : Birthday reveal -->
+  <div class="screen" id="s2">
+    <div class="card">
+      <div class="balloons">🎈🎈🎈</div>
+      <h1 class="big">Happy Birthday<br>Divya!</h1>
+      <div class="date-badge">📅 1 December — Tumhara Khaas Din</div>
+      <p style="margin-top:16px;">Aaj ka din sirf tumhara hai.<br>Aage tumhare liye kuch pyaari si baatein hain... 💖</p>
+      <button class="btn" onclick="go(3)">Aage Dekho ➡️</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 3 : Wish 1 -->
+  <div class="screen" id="s3">
+    <div class="card">
+      <div class="wish-emoji">😊</div>
+      <p class="wish-text">Tumhari <b>smile</b> duniya ki sabse khoobsurat cheez hai.<br>Dua hai ki ye smile is saal har din aur badi ho —<br>aur kabhi kam na ho. 🌸</p>
+      <div class="dots">● ○ ○ ○</div>
+      <button class="btn" onclick="go(4)">Aur hai... 💌</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 4 : Wish 2 -->
+  <div class="screen" id="s4">
+    <div class="card">
+      <div class="wish-emoji">🌿</div>
+      <p class="wish-text">Bhagwan kare tum <b>hamesha swasth aur khush</b> raho.<br>Har pareshani tumse door rahe,<br>aur har subah ek nayi ummeed lekar aaye. 🙏</p>
+      <div class="dots">○ ● ○ ○</div>
+      <button class="btn" onclick="go(5)">Aur hai... 💌</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 5 : Wish 3 -->
+  <div class="screen" id="s5">
+    <div class="card">
+      <div class="wish-emoji">⭐</div>
+      <p class="wish-text">Tumhare <b>saare sapne poore hon</b> —<br>jis manzil ke liye tum mehnat kar rahi ho,<br>wo is saal tumhe zaroor mile.<br>Tum kar sakti ho, poora bharosa hai. 💪</p>
+      <div class="dots">○ ○ ● ○</div>
+      <button class="btn" onclick="go(6)">Aur hai... 💌</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 6 : Wish 4 -->
+  <div class="screen" id="s6">
+    <div class="card">
+      <div class="wish-emoji">🤝</div>
+      <p class="wish-text">Aur ek vaada —<br>jaise ye saal saath guzra,<br><b>har saal tumhare birthday par ye wish sabse pehle meri taraf se aayegi.</b> 🎂</p>
+      <div class="dots">○ ○ ○ ●</div>
+      <button class="btn" onclick="go(7)">Ab Cake Kaato 🎂</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 7 : Cake -->
+  <div class="screen" id="s7">
+    <div class="card">
+      <h2>🎂 Cake taiyaar hai!</h2>
+      <p class="small">Pehle mombattiyan bujhao, phir ek pyaari si wish maango...</p>
+      <div class="cake-zone">
+        <div class="cake">
+          <div class="candles">
+            <div class="candle"><div class="flame"></div></div>
+            <div class="candle"><div class="flame"></div></div>
+            <div class="candle"><div class="flame"></div></div>
+          </div>
+          <div class="icing"></div>
+          <div class="layer1"></div>
+          <div class="layer2"></div>
+          <div class="plate"></div>
+        </div>
+      </div>
+      <div class="hint" id="cakeMsg" style="color:#d6336c; font-size:16px;"></div>
+      <button class="btn" id="blowBtn" onclick="blow()">Mombatti Bujhao 💨</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 8 : Final letter -->
+  <div class="screen" id="s8">
+    <div class="card">
+      <h1 class="script" style="font-size:40px; color:#d6336c; text-align:center;">Tumhare Liye 💖</h1>
+      <div class="letter" style="margin-top:14px;">
+        <p>Janamdin mubarak ho, Divya.</p>
+        <p style="margin-top:10px;">Ye chhoti si website kuch khaas nahi hai — khaas tum ho. Tumhari khushi, tumhari sehat aur tumhare sapne, yahi meri har dua me rehta hai. Aaj ke din bas itna kehna hai — tum jaisi ho, bilkul waisi hi rehna. Tumhari saadgi aur tumhari smile hi tumhe sabse alag banati hai.</p>
+        <p style="margin-top:10px;">Enjoy karo apna din — cake khao, haso, aur yaad rakho: door ho ya paas, tumhare liye hamesha koi hai jo tumhari khushi ki dua karta hai. 🌸</p>
+        <div class="sign">— Tumhara, Ritik ❤️</div>
+      </div>
+      <div class="footer">Made with ❤️ by Ritik • Happy Birthday Divya 🎂</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // floating hearts & balloons background
+  (function () {
+    var bg = document.getElementById('floatBg');
+    var items = ['💖','🎈','💗','✨','🎈','💕'];
+    for (var i = 0; i < 16; i++) {
+      var s = document.createElement('span');
+      s.textContent = items[i % items.length];
+      s.style.left = Math.random() * 100 + 'vw';
+      s.style.animationDuration = (11 + Math.random() * 12) + 's';
+      s.style.animationDelay = (Math.random() * 12) + 's';
+      s.style.fontSize = (18 + Math.random() * 22) + 'px';
+      bg.appendChild(s);
+    }
+  })();
+
+  function go(n) {
+    var screens = document.querySelectorAll('.screen');
+    for (var i = 0; i < screens.length; i++) screens[i].classList.remove('active');
+    var el = document.getElementById('s' + n);
+    el.classList.remove('active'); void el.offsetWidth; el.classList.add('active');
+    window.scrollTo(0, 0);
+    if (n === 2) party();
+  }
+
+  function party() {
+    if (typeof confetti !== 'function') return;
+    var end = Date.now() + 900;
+    (function frame() {
+      confetti({ particleCount: 5, angle: 60, spread: 60, origin: { x: 0 }, colors: ['#ff5d8f','#ffd43b','#ffffff'] });
+      confetti({ particleCount: 5, angle: 120, spread: 60, origin: { x: 1 }, colors: ['#ff5d8f','#ffd43b','#ffffff'] });
+      if (Date.now() < end) requestAnimationFrame(frame);
+    })();
+  }
+
+  function burst() {
+    if (typeof confetti !== 'function') return;
+    confetti({ particleCount: 130, spread: 85, origin: { y: 0.6 }, colors: ['#ff5d8f','#d6336c','#ffd43b','#ffffff'] });
+  }
+
+  function checkName() {
+    var v = document.getElementById('nameInput').value.trim().toLowerCase();
+    var hint = document.getElementById('nameHint');
+    var card = document.getElementById('nameCard');
+    if (v.indexOf('divya') !== -1) {
+      hint.textContent = '';
+      go(2);
+    } else if (v === '') {
+      hint.textContent = 'Naam to likho pehle... 😊';
+    } else {
+      card.classList.remove('shake'); void card.offsetWidth; card.classList.add('shake');
+      hint.textContent = 'Hint: ye surprise jiske liye bana hai, usi ka naam chalega 😉';
+    }
+  }
+  document.getElementById('nameInput').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') checkName();
+  });
+
+  function blow() {
+    var candles = document.querySelectorAll('.candle');
+    for (var i = 0; i < candles.length; i++) candles[i].classList.add('out');
+    document.getElementById('cakeMsg').textContent = 'Ab aankhein band karke ek wish maang lo... 🤲✨';
+    var btn = document.getElementById('blowBtn');
+    btn.textContent = 'Ab Aakhri Surprise 💌';
+    btn.onclick = function () { burst(); go(8); };
+  }
+
+  // Happy Birthday tune (WebAudio, no file needed)
+  var audioCtx = null, playing = false, timers = [];
+  var NOTES = [
+    [392,.75],[392,.25],[440,1],[392,1],[523,1],[494,1.75],
+    [392,.75],[392,.25],[440,1],[392,1],[587,1],[523,1.75],
+    [392,.75],[392,.25],[784,1],[659,1],[523,1],[494,1],[440,1.75],
+    [698,.75],[698,.25],[659,1],[523,1],[587,1],[523,2.2]
+  ];
+  function playTune() {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    var beat = 0.42, t = audioCtx.currentTime + 0.06;
+    NOTES.forEach(function (nd) {
+      var o = audioCtx.createOscillator(), g = audioCtx.createGain();
+      o.type = 'triangle'; o.frequency.value = nd[0];
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(0.22, t + 0.03);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + nd[1] * beat - 0.04);
+      o.connect(g); g.connect(audioCtx.destination);
+      o.start(t); o.stop(t + nd[1] * beat);
+      t += nd[1] * beat;
+    });
+    var total = (t - audioCtx.currentTime) * 1000;
+    timers.push(setTimeout(function () {
+      playing = false; document.getElementById('musicBtn').textContent = '🎵';
+    }, total));
+  }
+  document.getElementById('musicBtn').addEventListener('click', function () {
+    if (playing) {
+      timers.forEach(clearTimeout); timers = [];
+      if (audioCtx) audioCtx.close(), audioCtx = null;
+      playing = false; this.textContent = '🎵';
+    } else {
+      playing = true; this.textContent = '⏸️';
+      playTune();
+    }
+  });
+</script>
+</body>
+</html>
